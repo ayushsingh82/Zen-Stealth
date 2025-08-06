@@ -2,13 +2,15 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "stealth": "ts-node scripts/createStealthAddress.ts"
-  },
+      "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "next lint",
+      "test-stealth": "ts-node scripts/testStealthAddress.ts",
+      "run-fluid": "ts-node scripts/runFluid.ts",
+      "test-erc5564": "ts-node scripts/testERC5564.ts"
+    },
   "dependencies": {
     "@fluidkey/stealth-account-kit": "^1.0.0",
     "@rainbow-me/rainbowkit": "^2.0.0",
