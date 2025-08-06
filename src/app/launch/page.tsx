@@ -29,7 +29,7 @@ export default function LaunchPage() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="address" className="block text-sm font-medium text-black mb-2 font-bold">
-                Address
+                Address / ENS
               </label>
               <input
                 type="text"
