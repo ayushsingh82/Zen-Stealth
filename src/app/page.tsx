@@ -6,20 +6,20 @@ export default function Home() {
       {/* HERO */}
       <div className="relative py-20 px-4">
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-full max-w-6xl h-64 bg-gradient-to-r from-[#FAF7C0] via-[#FCF569] to-[#FEDE27] rounded-b-[50%] shadow-2xl flex items-end justify-center pb-8">
+          <div className="w-full max-w-6xl h-128 bg-gradient-to-r from-[#FAF7C0] via-[#FCF569] to-[#FEDE27] rounded-b-[50%] shadow-2xl flex items-end justify-center pb-8">
             <div className="text-center">
-              <p className="text-lg font-medium text-black mb-2">Experience the Future of</p>
-              <h3 className="text-6xl font-black text-black tracking-tight mb-1">
+              <p className="text-md font-black mb-16 text-white bg-black px-3 py-2 rounded-lg inline-block">Experience the Future of</p>
+              <h3 className="text-6xl font-bold font-black text-black italic mb-1">
                 PRIVATE Transaction
               </h3>
-              <p className="text-4xl font-light text-black italic">on Horizen</p>
+              <h2 className="text-6xl font-black mb-4 text-[#FCD119] bg-black px-3 py-2 rounded-lg inline-block italic">on Horizen</h2>
             </div>
           </div>
         </div>
       </div>
 
       {/* MAIN CONTENT */}
-      <div className="max-w-7xl mx-auto px-4 pb-20 mt-16">
+      <div className="max-w-7xl mx-auto px-4 pb-20 mt-64">
         <div className="grid md:grid-cols-3 gap-6">
           
           {/* BOX 1 - Why Privacy Matters */}
@@ -34,9 +34,9 @@ export default function Home() {
 
           {/* BOX 2 - Zero-Knowledge Edge */}
           <div className="bg-[#FCD119] border-2 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] p-6 rounded-lg">
-            <h3 className="text-xl font-black mb-4 text-black">
+          <h2 className="text-xl font-black mb-4 text-white bg-black px-3 py-2 rounded-lg inline-block">
               Our Zero-Knowledge Edge
-            </h3>
+            </h2>
             <p className="text-sm text-black mb-4 leading-relaxed">
               Harness Horizen's advanced zero-knowledge proof technology for:
             </p>
@@ -61,8 +61,8 @@ export default function Home() {
           </div>
 
           {/* BOX 3 - How It Works */}
-          <div className="bg-[#FCD119] border-2 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] p-6 rounded-lg">
-            <h2 className="text-xl font-black mb-4 text-black bg-white px-3 py-2 rounded-lg inline-block">
+          <div className="bg-[#fff] border-2 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] p-6 rounded-lg">
+          <h2 className="text-xl font-black mb-4 text-[#FCD119] bg-black px-3 py-2 rounded-lg inline-block">
               How It Works
             </h2>
             <p className="text-sm text-black mb-4 leading-relaxed">
@@ -98,14 +98,14 @@ export default function Home() {
         </div>
 
         {/* BOX 4 - Security First */}
-        <div className="mt-6 bg-white border-2 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] p-6 rounded-lg">
+        {/* <div className="mt-6 bg-white border-2 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] p-6 rounded-lg">
           <h3 className="text-xl font-black mb-4 text-black">
             Security First, Always
           </h3>
           <p className="text-sm text-black leading-relaxed">
             Every move you make is locked by military-grade cryptography. Your privacy, security, and sovereignty are our unwavering promise.
           </p>
-        </div>
+        </div> */}
 
         {/* WAITLIST BUTTON */}
         <div className="text-center mt-12">
