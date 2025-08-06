@@ -17,8 +17,8 @@ export default function LaunchPage() {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="max-w-md w-full">
-        <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <div className="bg-white rounded-lg border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8">
+          <h1 className="text-2xl font-bold text-[#FCD119] mb-6 text-center bg-black py-3 px-4 rounded-lg">
             SEND PRIVATELY
           </h1>
           
@@ -28,7 +28,7 @@ export default function LaunchPage() {
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="address" className="block text-sm font-medium text-black mb-2 font-bold">
                 Address
               </label>
               <input
@@ -37,13 +37,13 @@ export default function LaunchPage() {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Enter address"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border-2 border-black rounded-md shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:ring-0 focus:border-black bg-white"
                 required
               />
             </div>
             
             <div>
-              <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
+              <label htmlFor="amount" className="block text-sm font-medium text-black mb-2 font-bold">
                 Amount
               </label>
               <input
@@ -52,14 +52,14 @@ export default function LaunchPage() {
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
                 placeholder="Enter amount"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-3 py-2 border-2 border-black rounded-md shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:ring-0 focus:border-black bg-white"
                 required
               />
             </div>
             
             <button
               type="submit"
-              className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-gray-900 bg-[#FCD119] hover:bg-[#FCD119]/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FCD119] transition-colors duration-200"
+              className="w-full py-3 px-4 border-2 border-black rounded-md shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] text-sm font-bold text-black bg-[#FCD119] hover:bg-[#FCD119]/90 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FCD119] transition-all duration-200 active:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px]"
             >
               Submit
             </button>
