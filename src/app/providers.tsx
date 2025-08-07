@@ -34,9 +34,9 @@ const horizenTestnet = {
 
 const config = getDefaultConfig({
   appName: 'Private Send - Horizen',
-  projectId: 'YOUR_PROJECT_ID',
+  projectId: 'c4f79cc821944d9680842e34466bfbd9', // Using a demo project ID - replace with your own
   chains: [horizenTestnet],
-  ssr: true, // If your dApp uses server side rendering (SSR)
+  ssr: true,
 });
 
 const queryClient = new QueryClient();
@@ -45,7 +45,10 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
+        <RainbowKitProvider
+          locale="en-US"
+          initialChain={horizenTestnet}
+        >
           {children}
         </RainbowKitProvider>
       </QueryClientProvider>

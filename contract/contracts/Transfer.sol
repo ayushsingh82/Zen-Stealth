@@ -1,50 +1,36 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.20;
 
-contract Transfer {
-    event TransferCompleted(address indexed from, address indexed to, uint256 amount);
-    event TransferFailed(address indexed from, address indexed to, uint256 amount, string reason);
+// Minimal interface for ERC20 tokens (only the method we use)
+interface IERC20 {
+    function transfer(address recipient, uint256 amount) external returns (bool);
+}
 
-    /**
-     * @dev Transfer ETH to a specified address
-     * @param recipient The address to send ETH to
-     * @param amount The amount of ETH to send (in wei)
-     */
-    function transferETH(address payable recipient, uint256 amount) external payable {
-        require(recipient != address(0), "Transfer: recipient cannot be zero address");
-        require(amount > 0, "Transfer: amount must be greater than 0");
-        require(msg.value >= amount, "Transfer: insufficient ETH sent");
-        require(address(this).balance >= amount, "Transfer: contract has insufficient balance");
+contract TokenTransfer {
+    address public owner;
 
-        // Transfer the ETH
-        (bool success, ) = recipient.call{value: amount}("");
-        
-        if (success) {
-            emit TransferCompleted(msg.sender, recipient, amount);
-            
-            // Refund excess ETH if any
-            uint256 excess = msg.value - amount;
-            if (excess > 0) {
-                (bool refundSuccess, ) = payable(msg.sender).call{value: excess}("");
-                require(refundSuccess, "Transfer: failed to refund excess ETH");
-            }
-        } else {
-            emit TransferFailed(msg.sender, recipient, amount, "Transfer failed");
-            revert("Transfer: ETH transfer failed");
-        }
+    constructor() {
+        owner = msg.sender;
     }
 
-    /**
-     * @dev Get the contract's ETH balance
-     */
-    function getBalance() external view returns (uint256) {
-        return address(this).balance;
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Not authorized");
+        _;
     }
 
-   
+    // Function to transfer tokens from the contract to a recipient
+    function transferToken(address tokenAddress, address recipient, uint256 amount) external onlyOwner {
+        require(recipient != address(0), "Invalid recipient address");
+        IERC20 token = IERC20(tokenAddress);
+        bool success = token.transfer(recipient, amount);
+        require(success, "Token transfer failed");
+    }
 
-    /**
-     * @dev Allow the contract to receive ETH
-     */
+    // Withdraw accidentally sent ETH
+    function withdrawETH() external onlyOwner {
+        payable(owner).transfer(address(this).balance);
+    }
+
+    // Accept ETH
     receive() external payable {}
 }
