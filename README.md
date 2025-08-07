@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🕵️‍♂️ Private Transactions on Horizen – Stealth Account
 
-## Getting Started
+Experience the future of private transactions using **stealth addresses** on the Horizen Testnet.  
+Built with cutting-edge stealth address technology and zero-knowledge infrastructure.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🔐 What Are Stealth Addresses?
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Stealth addresses allow **private fund receiving on-chain**. They enhance transaction confidentiality while preserving both sender and receiver privacy.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ℹ️ How It Works
 
-## Learn More
+- ✅ Stealth addresses are **only used for receiving funds privately**
+- ⚠️ When **sending**, your **regular address still appears** on the block explorer
+- 🪬 Use stealth addresses to receive **anonymous payments**
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ⚙️ Project Features
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- ✅ **Stealth Address Generation** — with a single click
+- 🔒 **One-time Use Addresses** — ensuring maximum unlinkability
+- 🏷️ **View Tags** — for efficient scanning of received funds
+- 🧠 **Ephemeral Keys** — temporary key generation per transaction
+- 🧮 **SECP256k1 Cryptography** — secure and proven cryptographic standard
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧪 Network Info
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Chain**: Horizen Testnet  
+- **Chain ID**: `845320009`
+
+---
+
+## 🧰 Built With
+
+- **FluidKey Account Kit** — Implements the [ERC-5564 stealth address standard](https://eips.ethereum.org/EIPS/eip-5564)
+
+---
+
+> Stealth addresses unlock a new layer of privacy on public blockchains — enabling **confidential, unlinkable, and censorship-resistant** payments.
