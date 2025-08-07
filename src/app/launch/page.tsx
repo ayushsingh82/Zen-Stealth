@@ -266,11 +266,11 @@ export default function LaunchPage() {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="w-full max-w-6xl h-64 bg-gradient-to-r from-[#FAF7C0] via-[#FCF569] to-[#FEDE27] rounded-b-[50%] shadow-2xl flex items-end justify-center pb-8">
             <div className="text-center">
-              <p className="text-lg font-medium text-black mb-2">Experience the Future of</p>
-              <h1 className="text-6xl font-black text-black tracking-tight mb-1">
-                PRIVATE Transaction
-              </h1>
-              <p className="text-2xl font-light text-black italic">on Horizen</p>
+            <p className="text-sm font-black mb-4 text-white bg-black px-3 py-2 rounded-lg inline-block">Experience the Future of</p>
+            <h3 className="text-4xl font-bold font-black text-black italic mb-1">
+                Stealth Account
+              </h3>
+              <h2 className="text-lg font-black mb-4 text-[#FCD119] bg-black px-3 py-2 rounded-lg inline-block italic">on Horizen</h2>
             </div>
           </div>
 
@@ -402,7 +402,7 @@ export default function LaunchPage() {
           {/* BOX 2 - Privacy Features */}
           <div className="bg-white border-2 border-black shadow-[8px_8px_0_0_rgba(0,0,0,1)] p-6 rounded-lg">
             <h2 className="text-xl font-black mb-4 text-[#FCD119] bg-black px-3 py-2 rounded-lg inline-block">
-              ERC-5564 Privacy
+              FluidKey account kit
             </h2>
             <p className="text-sm text-black mb-4 leading-relaxed">
               Advanced privacy features using ERC-5564 stealth addresses:

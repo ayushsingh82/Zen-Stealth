@@ -112,6 +112,9 @@ export default function Home() {
           <button className="bg-[#FCD119] border-2 border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)] px-8 py-4 rounded-lg text-lg font-bold text-black hover:bg-[#FCD119]/90 hover:shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 active:shadow-[2px_2px_0_0_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px]">
             Join the Waitlist
           </button>
+           <button className="bg-[#FCD119] ml-[20px] border-2 border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)] px-8 py-4 rounded-lg text-lg font-bold text-black hover:bg-[#FCD119]/90 hover:shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] transition-all duration-200 active:shadow-[2px_2px_0_0_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px]">
+           <a href="/launch">Launch App</a>
+          </button>
         </div>
 
         {/* MORE WHITE CONTENT */}
@@ -130,10 +133,7 @@ export default function Home() {
               </p>
             </div>
             <div>
-              <h4 className="text-lg font-bold text-[#FCD119] mb-2 bg-black px-3 py-1 rounded-lg inline-block">Military-Grade Security</h4>
-              <p className="text-black text-sm mt-2">
-                Every transaction is protected by enterprise-level cryptographic protocols, ensuring your financial privacy is never compromised.
-              </p>
+            
             </div>
           </div>
         </div>
