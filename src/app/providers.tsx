@@ -54,4 +54,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       </QueryClientProvider>
     </WagmiProvider>
   );
-} 
+}
+
+// Default export for dynamic imports
+export default Providers; 

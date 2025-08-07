@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@rainbow-me/rainbowkit', 'wagmi', '@tanstack/react-query'],
   },
-  // Increase timeout for chunk loading
+  // Webpack configuration for better compatibility
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -13,17 +13,13 @@ const nextConfig: NextConfig = {
         fs: false,
         net: false,
         tls: false,
+        crypto: false,
       };
     }
     return config;
   },
   // Optimize bundle size
   swcMinify: true,
-  // Increase timeout for development
-  devIndicators: {
-    buildActivity: true,
-    buildActivityPosition: 'bottom-right',
-  },
 };
 
 export default nextConfig;
