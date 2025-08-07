@@ -2,54 +2,45 @@
 
 import { useState, useEffect } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt, usePublicClient, useWalletClient } from 'wagmi';
-import { contractConfig } from '../../config/contract';
+import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther, isAddress } from 'viem';
 
 export default function LaunchPage() {
   const [address, setAddress] = useState('');
   const [amount, setAmount] = useState('');
-  const [tokenAddress, setTokenAddress] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   const [transferStatus, setTransferStatus] = useState('');
-  const [contractOwner, setContractOwner] = useState<string>('');
 
   const { address: userAddress, isConnected } = useAccount();
-  const publicClient = usePublicClient();
-  const { data: walletClient } = useWalletClient();
 
-  // Read contract owner
-  const { data: owner, isLoading: isLoadingOwner } = useReadContract({
-    ...contractConfig,
-    functionName: 'owner',
-  });
-
-  // Write contract
-  const { data: hash, writeContract, isPending } = useWriteContract();
+  // Send transaction
+  const { 
+    data: hash,
+    error, 
+    isPending, 
+    sendTransaction 
+  } = useSendTransaction();
 
   // Wait for transaction
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
   });
 
-  // Update contract owner when data changes
-  useEffect(() => {
-    if (owner) {
-      setContractOwner(owner);
-    }
-  }, [owner]);
-
-  // Handle transfer success (keeping for compatibility with wagmi hooks)
+  // Handle transfer success
   useEffect(() => {
     if (isSuccess) {
       setTransferStatus('Transfer completed successfully!');
-      setIsLoading(false);
       // Reset form
       setAddress('');
       setAmount('');
-      setTokenAddress('');
     }
   }, [isSuccess]);
+
+  // Handle error
+  useEffect(() => {
+    if (error) {
+      setTransferStatus(`Transfer failed: ${error.message}`);
+    }
+  }, [error]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,56 +50,31 @@ export default function LaunchPage() {
       return;
     }
 
-    if (!address || !amount || !tokenAddress) {
+    if (!address || !amount) {
       setTransferStatus('Please fill in all required fields');
       return;
     }
 
-    if (!publicClient || !walletClient) {
-      setTransferStatus('Wallet not ready');
-      return;
-    }
-
     try {
-      setIsLoading(true);
       setTransferStatus('Initiating transfer...');
 
-      // Validate addresses
+      // Validate address
       if (!isAddress(address)) {
         throw new Error('Invalid recipient address');
       }
-      if (!isAddress(tokenAddress)) {
-        throw new Error('Invalid token address');
-      }
 
-      // Convert amount to wei (assuming 18 decimals for most ERC20 tokens)
-      const amountInWei = parseEther(amount);
+      // Convert amount to wei
+      const value = parseEther(amount);
 
-      // Simulate the contract call first
-      const { request } = await publicClient.simulateContract({
-        address: contractConfig.address as `0x${string}`,
-        abi: contractConfig.abi,
-        functionName: 'transferToken',
-        args: [tokenAddress as `0x${string}`, address as `0x${string}`, amountInWei],
-        account: userAddress as `0x${string}`,
+      // Send transaction
+      sendTransaction({ 
+        to: address as `0x${string}`, 
+        value 
       });
-
-      // Write to the contract
-      const hash = await walletClient.writeContract(request);
-      await publicClient.waitForTransactionReceipt({ hash });
-
-      setTransferStatus('Transfer completed successfully!');
-      setIsLoading(false);
-      
-      // Reset form
-      setAddress('');
-      setAmount('');
-      setTokenAddress('');
 
     } catch (error) {
       console.error('Transfer error:', error);
       setTransferStatus(`Transfer failed: ${(error as Error).message}`);
-      setIsLoading(false);
     }
   };
 
@@ -161,32 +127,17 @@ export default function LaunchPage() {
                   required
                 />
               </div>
-              
-              <div>
-                <label htmlFor="tokenAddress" className="block text-sm font-bold text-black mb-2">
-                  Token Contract Address
-                </label>
-                <input
-                  type="text"
-                  id="tokenAddress"
-                  value={tokenAddress}
-                  onChange={(e) => setTokenAddress(e.target.value)}
-                  placeholder="0x..."
-                  className="w-full px-3 py-2 border-2 border-black rounded-md shadow-[4px_4px_0_0_rgba(0,0,0,1)] focus:outline-none focus:ring-0 focus:border-black bg-white text-black placeholder-gray-500"
-                  required
-                />
-              </div>
 
               <div>
                 <label htmlFor="amount" className="block text-sm font-bold text-black mb-2">
-                  Amount (Tokens)
+                  Amount (ETH)
                 </label>
                 <input
                   type="number"
                   id="amount"
                   value={amount}
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="100"
+                  placeholder="0.1"
                   step="0.001"
                   min="0"
                   className="w-full px-3 py-2 border-2 border-black rounded-md shadow-[4px_4px_0_0_rgba(0,0,0,1)] focus:outline-none focus:ring-0 focus:border-black bg-white text-black placeholder-gray-500"
@@ -196,10 +147,10 @@ export default function LaunchPage() {
               
               <button
                 type="submit"
-                disabled={isLoading || !isConnected}
+                disabled={isPending || !isConnected}
                 className="w-full py-3 px-4 border-2 border-black rounded-md shadow-[6px_6px_0_0_rgba(0,0,0,1)] text-sm font-bold text-black bg-[#FCD119] hover:bg-[#FCD119]/90 hover:shadow-[4px_4px_0_0_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#FCD119] transition-all duration-200 active:shadow-[2px_2px_0_0_rgba(0,0,0,1)] active:translate-x-[4px] active:translate-y-[4px] disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isLoading ? 'Processing...' : 'Send Transaction'}
+                {isPending ? 'Processing...' : 'Send Transaction'}
               </button>
             </form>
 
@@ -214,17 +165,19 @@ export default function LaunchPage() {
               </div>
             )}
 
-            {/* Contract Owner Info */}
-            {contractOwner && (
-              <div className="mt-4 p-3 bg-gray-50 rounded-md">
-                <p className="text-sm text-gray-600">
-                  Contract Owner: {isLoadingOwner ? 'Loading...' : contractOwner}
+            {/* Transaction Status */}
+            {hash && (
+              <div className="mt-4 p-3 bg-blue-50 rounded-md">
+                <p className="text-sm text-blue-600">
+                  Transaction Hash: {hash}
                 </p>
-                {isConnected && userAddress === contractOwner && (
-                  <p className="text-sm text-green-600 font-medium mt-1">
-                    ✓ You are the contract owner
-                  </p>
-                )}
+              </div>
+            )}
+            {isConfirming && (
+              <div className="mt-4 p-3 bg-yellow-50 rounded-md">
+                <p className="text-sm text-yellow-600">
+                  Waiting for confirmation...
+                </p>
               </div>
             )}
           </div>
