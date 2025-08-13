@@ -3,6 +3,13 @@
 export default function Home() {
   return (
     <div className="min-h-screen bg-white font-sans tracking-tight">
+      {/* HEADER */}
+      <div className="absolute top-6 left-6 z-10">
+        <div className="bg-[#FCD119] border-2 border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)] px-6 py-3 rounded-lg">
+          <h1 className="text-2xl font-black text-black">Zen-Stealth</h1>
+        </div>
+      </div>
+
       {/* HERO */}
       <div className="relative py-20 px-4">
         <div className="absolute inset-0 flex items-center justify-center">

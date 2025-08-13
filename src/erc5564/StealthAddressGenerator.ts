@@ -68,7 +68,7 @@ export class ERC5564StealthAddressGenerator {
 
       return {
         stealthAddress,
-        ephemeralPubKey: `0x${ephemeralPubKey.toString('hex')}` as `0x${string}`,
+        ephemeralPubKey: `0x${Buffer.from(ephemeralPubKey).toString('hex')}` as `0x${string}`,
         viewTag
       };
 

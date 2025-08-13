@@ -18,8 +18,6 @@ const nextConfig: NextConfig = {
     }
     return config;
   },
-  // Optimize bundle size
-  swcMinify: true,
 };
 
 export default nextConfig;
