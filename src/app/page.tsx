@@ -1,13 +1,17 @@
 'use client';
 
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-white font-sans tracking-tight">
       {/* HEADER */}
       <div className="absolute top-6 left-6 z-10">
-        <div className="bg-[#FCD119] border-2 border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)] px-6 py-3 rounded-lg">
-          <h1 className="text-2xl font-black text-black">Zen-Stealth</h1>
-        </div>
+        <Link href="/home" className="focus:outline-none">
+          <div className="bg-[#FCD119] border-2 border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)] px-6 py-3 rounded-lg cursor-pointer">
+            <h1 className="text-2xl font-black text-black">Zen-Stealth</h1>
+          </div>
+        </Link>
       </div>
 
       {/* HERO */}
