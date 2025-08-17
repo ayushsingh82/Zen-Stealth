@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { BackgroundBeamsDemo, Fns } from './screens';
+import { Fns, BackgroundBeamsDemo } from './screens';
 import Link from 'next/link';
 
 const WidgetPage = () => {
@@ -19,7 +19,7 @@ const WidgetPage = () => {
           <Fns />
         </div>
       </div>
-      {/* Right: Full black background, no gap, beams demo centered */}
+      {/* Right: Full black background, beam effect centered */}
       <div className="w-full md:w-1/2 min-h-screen bg-black flex items-center justify-center p-0 m-0">
         <div className="w-full h-full flex items-center justify-center">
           <BackgroundBeamsDemo />

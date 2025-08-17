@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import React from 'react';
+import { motion } from 'framer-motion';
 
 const faqs = [
   {
@@ -23,10 +24,31 @@ const faqs = [
 ];
 
 export default function Home() {
+  // Only 2 circles on each side, with gray border
+  const yellowCircles = [
+    // Left corners
+    { className: 'fixed left-[-40px] top-[-40px] w-40 h-40', color: 'bg-[#FCD119]/70', blur: 'blur-sm', delay: 0 },
+    { className: 'fixed left-[-32px] bottom-[-32px] w-32 h-32', color: 'bg-[#FCF569]/70', blur: 'blur', delay: 0.2 },
+    // Right corners
+    { className: 'fixed right-[-40px] top-[-40px] w-40 h-40', color: 'bg-[#FCD119]/70', blur: 'blur-sm', delay: 0.4 },
+    { className: 'fixed right-[-32px] bottom-[-32px] w-32 h-32', color: 'bg-[#FEDE27]/70', blur: 'blur', delay: 0.6 },
+  ];
+
   const [expandedFaq, setExpandedFaq] = React.useState<number | null>(null);
 
   return (
-    <div className="min-h-screen bg-white font-sans tracking-tight">
+    <div className="min-h-screen bg-white font-sans tracking-tight relative overflow-x-hidden">
+      {/* Animated yellow background circles with gray border */}
+      {yellowCircles.map((circle, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: [0.9, 1.05, 0.9] }}
+          transition={{ duration: 10, repeat: Infinity, delay: circle.delay, ease: 'easeInOut' }}
+          className={`${circle.className} ${circle.color} ${circle.blur} rounded-full border-2 border-gray-300 pointer-events-none z-0`}
+        />
+      ))}
+
       {/* HEADER */}
       <div className="absolute top-6 left-6 z-10">
         <Link href="/home" className="focus:outline-none">
