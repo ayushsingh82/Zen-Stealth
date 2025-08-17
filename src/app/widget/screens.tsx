@@ -28,7 +28,7 @@ export function Fns() {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <div className="w-full max-w-md bg-white/90 border-2 border-black rounded-3xl p-10 mt-8 md:mt-16 backdrop-blur-sm shadow-[0_12px_32px_0_rgba(252,209,25,0.25)]">
+      <div className="w-full max-w-md bg-white/90 border-2 border-black border-r-8 border-b-8 rounded-3xl p-10 mt-8 md:mt-16 backdrop-blur-sm">
         {step === 1 && (
           <>
             <h2 className="text-3xl font-extrabold mb-2 text-black text-center tracking-tight">Create Account</h2>
@@ -98,8 +98,8 @@ export function Fns() {
           </>
         )}
       </div>
-      {/* Navigation Buttons OUTSIDE the box, right-aligned */}
-      <div className="flex gap-6 mt-8 w-full max-w-md justify-end">
+      {/* Navigation Buttons OUTSIDE the box, centered */}
+      <div className="flex gap-6 mt-8 w-full max-w-md justify-center">
         <button
           className="px-8 py-3 rounded-xl border-2 border-black font-bold text-lg bg-white text-black hover:bg-[#FCD119] hover:text-black transition disabled:opacity-50 shadow-md"
           disabled={step === 1}
@@ -127,11 +127,11 @@ export function BackgroundBeamsDemo() {
     <div className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased">
       <div className="max-w-2xl mx-auto p-4">
         <h1 className="relative z-10 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-yellow-200 to-yellow-600  text-center font-sans font-bold">
-          Join the waitlist
+        Private. Anonymous. Unlinkable.
         </h1>
         <p></p>
-        <p className="text-white max-w-lg mx-auto my-2 text-sm text-center relative z-10">
-          Welcome to the world of pritransaction . Everything you need is privacy and we are here to help you with this 
+        <p className="text-white max-w-lg mx-auto my-2 text-md text-center relative z-10">
+          Welcome to the world of private transaction . Everything you need is privacy and we are here to help you with this 
         </p>
        
       </div>
