@@ -11,7 +11,7 @@ const WidgetPage = () => {
         <div className="w-full flex justify-center md:justify-start pt-8 md:pt-0">
           <Link href="/home" className="focus:outline-none">
             <div className="bg-[#FCD119] border-2 border-black shadow-[6px_6px_0_0_rgba(0,0,0,1)] px-6 py-3 rounded-lg cursor-pointer text-2xl font-black text-black mt-8 md:mt-0">
-              Zen-Stealth
+              <a href="/">Zen-Stealth</a>
             </div>
           </Link>
         </div>

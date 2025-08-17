@@ -2,92 +2,122 @@
 import React, { useState } from "react";
 import { BackgroundBeams } from "../../components/ui/background-beams";
 
+const CHAINS = [
+  { label: 'Sei', value: 'sei' },
+  { label: 'Ethereum', value: 'ethereum' },
+];
+const TOKENS = [
+  { name: 'USDT', chain: 'sei', label: 'Tether (USDT)' },
+  { name: 'USDC', chain: 'sei', label: 'USD Coin (USDC)' },
+  { name: 'DAI', chain: 'sei', label: 'Dai (DAI)' },
+  { name: 'USDT', chain: 'ethereum', label: 'Tether (USDT)' },
+  { name: 'USDC', chain: 'ethereum', label: 'USD Coin (USDC)' },
+  { name: 'DAI', chain: 'ethereum', label: 'Dai (DAI)' },
+];
+
 export function Fns() {
-  const CHAINS = [
-    { label: 'Ethereum', value: 'ethereum' },
-    { label: 'Horizen', value: 'horizen' },
-    { label: 'Polygon', value: 'polygon' },
-  ];
-  const TOKENS = [
-    { label: 'ETH', value: 'eth' },
-    { label: 'ZEN', value: 'zen' },
-    { label: 'USDT', value: 'usdt' },
-  ];
   const [step, setStep] = useState(1);
-  const [walletType, setWalletType] = useState<'personal' | 'team' | null>(null);
-  const [chain, setChain] = useState<string>('');
-  const [token, setToken] = useState<string>('');
+  const [walletType, setWalletType] = useState<'personal' | 'merchant' | null>(null);
+  // For new step 2
+  const [selectedChain, setSelectedChain] = useState('');
+  const [selectedToken, setSelectedToken] = useState('');
+
+  // Button requirements
+  const canNextStep1 = !!walletType;
+  const canNextStep2 = !!selectedChain && !!selectedToken;
 
   return (
-    <div className="w-full max-w-md bg-white/80 border-2 border-black shadow-2xl rounded-3xl p-10 mt-8 md:mt-16 backdrop-blur-sm">
-      {step === 1 && (
-        <>
-          <h2 className="text-2xl font-bold mb-6 text-black text-center">Create Wallet</h2>
-          <div className="flex flex-col gap-4 mb-8">
-            <button
-              className={`py-3 rounded-xl border-2 font-semibold text-lg ${walletType === 'personal' ? 'bg-[#FCD119] border-black text-black' : 'bg-gray-100 border-gray-300 text-gray-700'} transition`}
-              onClick={() => setWalletType('personal')}
-            >
-              For Personal
-            </button>
-            <button
-              className={`py-3 rounded-xl border-2 font-semibold text-lg ${walletType === 'team' ? 'bg-[#FCD119] border-black text-black' : 'bg-gray-100 border-gray-300 text-gray-700'} transition`}
-              onClick={() => setWalletType('team')}
-            >
-              For Team
-            </button>
-          </div>
-          <button
-            className="w-full py-3 bg-black text-white rounded-xl font-bold text-lg hover:bg-[#FCD119] hover:text-black border-2 border-black transition disabled:opacity-50"
-            disabled={!walletType}
-            onClick={() => setStep(2)}
-          >
-            Next
-          </button>
-        </>
-      )}
-      {step === 2 && (
-        <>
-          <h2 className="text-2xl font-bold mb-6 text-black text-center">Select Chain & Token</h2>
-          <div className="mb-8 flex flex-col gap-6">
-            <div>
+    <div className="w-full flex flex-col items-center">
+      <div className="w-full max-w-md bg-white/90 border-2 border-black rounded-3xl p-10 mt-8 md:mt-16 backdrop-blur-sm shadow-[0_12px_32px_0_rgba(252,209,25,0.25)]">
+        {step === 1 && (
+          <>
+            <h2 className="text-3xl font-extrabold mb-2 text-black text-center tracking-tight">Create Account</h2>
+            <p className="text-base text-gray-700 mb-8 text-center">Set up your wallet to get started</p>
+            <div className="mb-2 text-lg font-semibold text-black">Wallet Type</div>
+            <div className="flex flex-col gap-6 mb-8">
+              <button
+                className={`p-6 rounded-2xl border-4 font-semibold text-lg text-left transition shadow-md hover:shadow-xl focus:outline-none ${walletType === 'personal' ? 'bg-[#FCD119] border-black text-black' : 'bg-white border-[#FCD119] text-black hover:bg-[#FCD119]/20'}`}
+                onClick={() => setWalletType('personal')}
+              >
+                <div className="font-bold text-xl mb-1">Personal</div>
+                <div className="text-gray-700 text-base">For personal use</div>
+              </button>
+              <button
+                className={`p-6 rounded-2xl border-4 font-semibold text-lg text-left transition shadow-md hover:shadow-xl focus:outline-none ${walletType === 'merchant' ? 'bg-[#FCD119] border-black text-black' : 'bg-white border-[#FCD119] text-black hover:bg-[#FCD119]/20'}`}
+                onClick={() => setWalletType('merchant')}
+              >
+                <div className="font-bold text-xl mb-1">Team</div>
+                <div className="text-gray-700 text-base">need pro access</div>
+              </button>
+            </div>
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <h2 className="text-3xl font-extrabold mb-6 text-black text-center tracking-tight">Select Chain & Token</h2>
+            <div className="mb-6">
               <label className="block mb-2 font-semibold text-black">Chain</label>
               <select
                 className="w-full p-3 rounded-xl border-2 border-black text-lg bg-white text-black focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] hover:border-[#FCD119] transition appearance-none"
-                value={chain}
-                onChange={e => setChain(e.target.value)}
+                value={selectedChain}
+                onChange={e => {
+                  setSelectedChain(e.target.value);
+                  setSelectedToken(''); // Reset token when chain changes
+                }}
               >
-                <option value="" className="text-black bg-white">Select a chain</option>
+                <option value="">Select a chain</option>
                 {CHAINS.map(c => (
-                  <option key={c.value} value={c.value} className="text-black bg-white">{c.label}</option>
+                  <option key={c.value} value={c.value}>{c.label}</option>
                 ))}
               </select>
             </div>
-            <div className="h-2" />
-            <div className="border-t border-dashed border-gray-300 my-2" />
-            <div>
-              <label className="block mb-2 font-semibold text-black">Token</label>
-              <select
-                className="w-full p-3 rounded-xl border-2 border-black text-lg bg-white text-black focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] hover:border-[#FCD119] transition appearance-none"
-                value={token}
-                onChange={e => setToken(e.target.value)}
-              >
-                <option value="" className="text-black bg-white">Select a token</option>
-                {TOKENS.map(t => (
-                  <option key={t.value} value={t.value} className="text-black bg-white">{t.label}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <button
-            className="w-full py-3 bg-black text-white rounded-xl font-bold text-lg hover:bg-[#FCD119] hover:text-black border-2 border-black transition disabled:opacity-50"
-            disabled={!chain || !token}
-            onClick={() => alert('Continue to next step!')}
-          >
-            Next
-          </button>
-        </>
-      )}
+            {selectedChain && (
+              <div className="mb-6">
+                <label className="block mb-2 font-semibold text-black">Token</label>
+                <select
+                  className="w-full p-3 rounded-xl border-2 border-black text-lg bg-white text-black focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] hover:border-[#FCD119] transition appearance-none"
+                  value={selectedToken}
+                  onChange={e => setSelectedToken(e.target.value)}
+                >
+                  <option value="">Select a token</option>
+                  {TOKENS.filter(t => t.chain === selectedChain).map(t => (
+                    <option key={t.name} value={t.name}>{t.label}</option>
+                  ))}
+                </select>
+              </div>
+            )}
+            {selectedChain && selectedToken && (
+              <div className="mt-4 p-4 rounded-xl border-2 border-[#FCD119] bg-[#FCD119]/10 flex flex-col items-center">
+                <div className="text-black font-bold text-lg mb-1">Selected</div>
+                <div className="flex gap-4">
+                  <span className="px-3 py-1 rounded bg-black text-white text-sm font-semibold">{CHAINS.find(c => c.value === selectedChain)?.label}</span>
+                  <span className="px-3 py-1 rounded bg-[#FCD119] text-black text-sm font-semibold">{TOKENS.find(t => t.name === selectedToken && t.chain === selectedChain)?.label}</span>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+      {/* Navigation Buttons OUTSIDE the box, right-aligned */}
+      <div className="flex gap-6 mt-8 w-full max-w-md justify-end">
+        <button
+          className="px-8 py-3 rounded-xl border-2 border-black font-bold text-lg bg-white text-black hover:bg-[#FCD119] hover:text-black transition disabled:opacity-50 shadow-md"
+          disabled={step === 1}
+          onClick={() => setStep(step - 1)}
+        >
+          Back
+        </button>
+        <button
+          className="px-8 py-3 rounded-xl border-2 border-black font-bold text-lg bg-black text-white hover:bg-[#FCD119] hover:text-black transition disabled:opacity-50 shadow-md"
+          disabled={step === 1 ? !canNextStep1 : !canNextStep2}
+          onClick={() => {
+            if (step === 1 && canNextStep1) setStep(2);
+            else if (step === 2 && canNextStep2) alert('Continue to next step!');
+          }}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 }
@@ -96,11 +126,11 @@ export function BackgroundBeamsDemo() {
   return (
     <div className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased">
       <div className="max-w-2xl mx-auto p-4">
-        <h1 className="relative z-10 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
+        <h1 className="relative z-10 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-yellow-200 to-yellow-600  text-center font-sans font-bold">
           Join the waitlist
         </h1>
         <p></p>
-        <p className="text-neutral-500 max-w-lg mx-auto my-2 text-sm text-center relative z-10">
+        <p className="text-white max-w-lg mx-auto my-2 text-sm text-center relative z-10">
           Welcome to the world of pritransaction . Everything you need is privacy and we are here to help you with this 
         </p>
        
