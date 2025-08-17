@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { motion } from 'framer-motion';
 import { BackgroundBeams } from '../../components/ui/background-beams';
+import imagesJson from './images.json';
+const images: Record<string, string> = imagesJson;
 
 const CHAINS = [
   { label: 'Sei', value: 'sei' },
@@ -10,10 +12,10 @@ const CHAINS = [
 const TOKENS = [
   { name: 'USDT', chain: 'sei', label: 'Tether (USDT)' },
   { name: 'USDC', chain: 'sei', label: 'USD Coin (USDC)' },
-  { name: 'DAI', chain: 'sei', label: 'Dai (DAI)' },
+
   { name: 'USDT', chain: 'horizen', label: 'Tether (USDT)' },
   { name: 'USDC', chain: 'horizen', label: 'USD Coin (USDC)' },
-  { name: 'DAI', chain: 'horinze', label: 'Dai (DAI)' },
+ 
 ];
 
 export function Fns() {
@@ -35,47 +37,61 @@ export function Fns() {
           <p className="text-base text-gray-700">Set up your wallet to get started</p>
         </div>
       )}
-      {/* Step 2: Center the box vertically and a bit lower */}
       {step === 2 ? (
         <div className="w-full min-h-[60vh] flex flex-col justify-center items-center mt-8">
           <div className="w-full max-w-md bg-white/90 border-2 border-black border-r-8 border-b-8 rounded-3xl p-10 backdrop-blur-sm">
-            <div className="mb-6 ">
+            <div className="mb-6">
               <label className="block mb-2 font-semibold text-black">Chain</label>
-              <select
-                className="w-full p-3 border-2 border-black rounded-none text-lg bg-white text-black focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] hover:border-[#FCD119] transition appearance-none shadow-sm"
-                value={selectedChain}
-                onChange={e => {
-                  setSelectedChain(e.target.value);
-                  setSelectedToken(''); // Reset token when chain changes
-                }}
-              >
-                {/* <option value="">Select a chain</option> */}
-                {CHAINS.map(c => (
-                  <option key={c.value} value={c.value}>{c.label}</option>
-                ))}
-              </select>
+              <div className="flex items-center">
+                {selectedChain && images[selectedChain] && (
+                  <img src={images[selectedChain]} alt={selectedChain + ' logo'} className="w-6 h-6 mr-2" />
+                )}
+                <select
+                  className="w-full p-3 border-2 border-black rounded-none text-lg bg-white text-black focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] hover:border-[#FCD119] transition appearance-none shadow-sm"
+                  value={selectedChain}
+                  onChange={e => {
+                    setSelectedChain(e.target.value);
+                    setSelectedToken('');
+                  }}
+                >
+                  <option value="">Select a chain</option>
+                  {CHAINS.map(c => (
+                    <option key={c.value} value={c.value}>{c.label}</option>
+                  ))}
+                </select>
+              </div>
             </div>
-            {selectedChain && (
-              <div className="mb-6">
-                <label className="block mb-2 font-semibold text-black">Token</label>
+            <div className="mb-6">
+              <label className="block mb-2 font-semibold text-black">Token</label>
+              <div className="flex items-center">
+                {selectedToken && images[selectedToken.toLowerCase()] && (
+                  <img src={images[selectedToken.toLowerCase()]} alt={selectedToken + ' logo'} className="w-6 h-6 mr-2" />
+                )}
                 <select
                   className="w-full p-3 border-2 border-black rounded-none text-lg bg-white text-black focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] hover:border-[#FCD119] transition appearance-none shadow-sm"
                   value={selectedToken}
                   onChange={e => setSelectedToken(e.target.value)}
+                  disabled={!selectedChain}
                 >
-                  {/* <option value="">Select a token</option> */}
+                  <option value="">Select a token</option>
                   {TOKENS.filter(t => t.chain === selectedChain).map(t => (
                     <option key={t.name} value={t.name}>{t.label}</option>
                   ))}
                 </select>
               </div>
-            )}
+            </div>
             {selectedChain && selectedToken && (
               <div className="mt-4 p-4 border-2 border-[#FCD119] bg-[#FCD119]/10 flex flex-col items-center rounded-none shadow-sm">
                 <div className="text-black font-bold text-lg mb-1">Selected</div>
-                <div className="flex gap-4">
-                  <span className="px-3 py-1 rounded-none bg-black text-white text-sm font-semibold border border-gray-300">{CHAINS.find(c => c.value === selectedChain)?.label}</span>
-                  <span className="px-3 py-1 rounded-none bg-[#FCD119] text-black text-sm font-semibold border border-gray-300">{TOKENS.find(t => t.name === selectedToken && t.chain === selectedChain)?.label}</span>
+                <div className="flex gap-4 items-center">
+                  <span className="flex items-center px-3 py-1 rounded-none bg-black text-white text-sm font-semibold border border-gray-300">
+                    <img src={images[selectedChain]} alt={selectedChain + ' logo'} className="w-6 h-6 mr-2" />
+                    {CHAINS.find(c => c.value === selectedChain)?.label}
+                  </span>
+                  <span className="flex items-center px-3 py-1 rounded-none bg-[#FCD119] text-black text-sm font-semibold border border-gray-300">
+                    <img src={images[selectedToken.toLowerCase()]} alt={selectedToken + ' logo'} className="w-6 h-6 mr-2" />
+                    {TOKENS.find(t => t.name === selectedToken && t.chain === selectedChain)?.label}
+                  </span>
                 </div>
               </div>
             )}
