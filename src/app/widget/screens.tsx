@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { motion } from 'framer-motion';
 import { BackgroundBeams } from '../../components/ui/background-beams';
 import imagesJson from './images.json';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 const images: Record<string, string> = imagesJson;
 
 const CHAINS = [
@@ -23,6 +24,7 @@ export function Fns() {
   const [walletType, setWalletType] = useState<'personal' | 'merchant' | null>(null);
   const [selectedChain, setSelectedChain] = useState('');
   const [selectedToken, setSelectedToken] = useState('');
+  const [payOrReceive, setPayOrReceive] = useState<'pay' | 'receive' | null>(null);
 
   // Button requirements
   const canNextStep1 = !!walletType;
@@ -42,57 +44,104 @@ export function Fns() {
           <div className="w-full max-w-md bg-white/90 border-2 border-black border-r-8 border-b-8 rounded-3xl p-10 backdrop-blur-sm">
             <div className="mb-6">
               <label className="block mb-2 font-semibold text-black">Chain</label>
-              <div className="flex items-center">
-                {selectedChain && images[selectedChain] && (
-                  <img src={images[selectedChain]} alt={selectedChain + ' logo'} className="w-6 h-6 mr-2" />
-                )}
-                <select
-                  className="w-full p-3 border-2 border-black rounded-none text-lg bg-white text-black focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] hover:border-[#FCD119] transition appearance-none shadow-sm"
-                  value={selectedChain}
-                  onChange={e => {
-                    setSelectedChain(e.target.value);
-                    setSelectedToken('');
-                  }}
-                >
-                  <option value="">Select a chain</option>
-                  {CHAINS.map(c => (
-                    <option key={c.value} value={c.value}>{c.label}</option>
-                  ))}
-                </select>
-              </div>
+              <select
+                className="w-full p-3 border-2 border-black rounded-xl text-lg bg-white text-black font-semibold focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] hover:border-[#FCD119] transition appearance-none shadow-md outline-none"
+                value={selectedChain}
+                onChange={e => {
+                  setSelectedChain(e.target.value);
+                  setSelectedToken('');
+                }}
+              >
+                <option value="">Select chain</option>
+                {CHAINS.map(c => (
+                  <option key={c.value} value={c.value}>{c.label}</option>
+                ))}
+              </select>
             </div>
             <div className="mb-6">
               <label className="block mb-2 font-semibold text-black">Token</label>
-              <div className="flex items-center">
-                {selectedToken && images[selectedToken.toLowerCase()] && (
-                  <img src={images[selectedToken.toLowerCase()]} alt={selectedToken + ' logo'} className="w-6 h-6 mr-2" />
-                )}
-                <select
-                  className="w-full p-3 border-2 border-black rounded-none text-lg bg-white text-black focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] hover:border-[#FCD119] transition appearance-none shadow-sm"
-                  value={selectedToken}
-                  onChange={e => setSelectedToken(e.target.value)}
-                  disabled={!selectedChain}
-                >
-                  <option value="">Select a token</option>
-                  {TOKENS.filter(t => t.chain === selectedChain).map(t => (
-                    <option key={t.name} value={t.name}>{t.label}</option>
-                  ))}
-                </select>
-              </div>
+              <select
+                className="w-full p-3 border-2 border-black rounded-xl text-lg bg-white text-black font-semibold focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] hover:border-[#FCD119] transition appearance-none shadow-md outline-none"
+                value={selectedToken}
+                onChange={e => setSelectedToken(e.target.value)}
+                disabled={!selectedChain}
+              >
+                <option value="">Select token</option>
+                {TOKENS.filter(t => t.chain === selectedChain).map(t => (
+                  <option key={t.name} value={t.name}>{t.label}</option>
+                ))}
+              </select>
             </div>
             {selectedChain && selectedToken && (
-              <div className="mt-4 p-4 border-2 border-[#FCD119] bg-[#FCD119]/10 flex flex-col items-center rounded-none shadow-sm">
-                <div className="text-black font-bold text-lg mb-1">Selected</div>
-                <div className="flex gap-4 items-center">
-                  <span className="flex items-center px-3 py-1 rounded-none bg-black text-white text-sm font-semibold border border-gray-300">
-                    <img src={images[selectedChain]} alt={selectedChain + ' logo'} className="w-6 h-6 mr-2" />
-                    {CHAINS.find(c => c.value === selectedChain)?.label}
-                  </span>
-                  <span className="flex items-center px-3 py-1 rounded-none bg-[#FCD119] text-black text-sm font-semibold border border-gray-300">
-                    <img src={images[selectedToken.toLowerCase()]} alt={selectedToken + ' logo'} className="w-6 h-6 mr-2" />
-                    {TOKENS.find(t => t.name === selectedToken && t.chain === selectedChain)?.label}
-                  </span>
+              <>
+                <div className="text-black font-bold text-lg mb-1 mt-4">Selected</div>
+                <div className="p-4 border-2 border-[#FCD119] bg-[#FCD119]/10 flex flex-col items-center rounded-none shadow-sm">
+                  <div className="flex gap-4 items-center">
+                    <span className="flex items-center px-3 py-1 rounded-none bg-black text-white text-sm font-semibold border border-gray-300">
+                      <img src={images[selectedChain]} alt={selectedChain + ' logo'} className="w-6 h-6 mr-2" />
+                      {CHAINS.find(c => c.value === selectedChain)?.label}
+                    </span>
+                    <span className="flex items-center px-3 py-1 rounded-none bg-[#FCD119] text-black text-sm font-semibold border border-gray-300">
+                      <img src={images[selectedToken.toLowerCase()]} alt={selectedToken + ' logo'} className="w-6 h-6 mr-2" />
+                      {TOKENS.find(t => t.name === selectedToken && t.chain === selectedChain)?.label}
+                    </span>
+                  </div>
                 </div>
+              </>
+            )}
+          </div>
+        </div>
+      ) : step === 3 ? (
+        <div className="w-full min-h-[60vh] flex flex-col justify-center items-center mt-8">
+          <div className="w-full max-w-md bg-white/90 border-2 border-black border-r-8 border-b-8 rounded-3xl p-10 backdrop-blur-sm">
+            <div className="mb-4 w-full flex justify-center">
+              <ConnectButton />
+            </div>
+            <div className="text-black font-bold text-lg mb-1 mt-2">Selected</div>
+            <div className="p-4 border-2 border-[#FCD119] bg-[#FCD119]/10 flex flex-col items-center rounded-none shadow-sm mb-6">
+              <div className="flex gap-4 items-center">
+                <span className="flex items-center px-3 py-1 rounded-none bg-black text-white text-sm font-semibold border border-gray-300">
+                  <img src={images[selectedChain]} alt={selectedChain + ' logo'} className="w-6 h-6 mr-2" />
+                  {CHAINS.find(c => c.value === selectedChain)?.label}
+                </span>
+                <span className="flex items-center px-3 py-1 rounded-none bg-[#FCD119] text-black text-sm font-semibold border border-gray-300">
+                  <img src={images[selectedToken.toLowerCase()]} alt={selectedToken + ' logo'} className="w-6 h-6 mr-2" />
+                  {TOKENS.find(t => t.name === selectedToken && t.chain === selectedChain)?.label}
+                </span>
+              </div>
+            </div>
+            <div className="text-black font-bold text-lg mb-4">Do you want to Pay or Receive?</div>
+            <div className="flex gap-8 justify-center mb-4">
+              <button
+                className={`px-8 py-3 rounded-xl border-2 border-black font-bold text-lg bg-[#FCD119] text-black hover:bg-black hover:text-[#FCD119] transition ${payOrReceive === 'pay' ? 'ring-2 ring-[#FCD119]' : ''}`}
+                onClick={() => setPayOrReceive('pay')}
+              >
+                Pay
+              </button>
+              <button
+                className={`px-8 py-3 rounded-xl border-2 border-black font-bold text-lg bg-black text-white hover:bg-[#FCD119] hover:text-black transition ${payOrReceive === 'receive' ? 'ring-2 ring-[#FCD119]' : ''}`}
+                onClick={() => setPayOrReceive('receive')}
+              >
+                Receive
+              </button>
+            </div>
+            {payOrReceive === 'pay' && (
+              <div className="flex flex-col gap-4 mt-4 w-full">
+                <input
+                  type="text"
+                  placeholder="Recipient Address"
+                  className="w-full p-3 border-2 border-black rounded-xl text-lg bg-white text-black font-semibold focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] outline-none"
+                />
+                <input
+                  type="number"
+                  placeholder="Amount"
+                  className="w-full p-3 border-2 border-black rounded-xl text-lg bg-white text-black font-semibold focus:ring-2 focus:ring-[#FCD119] focus:border-[#FCD119] outline-none"
+                />
+              </div>
+            )}
+            {payOrReceive === 'receive' && (
+              <div className="mt-4 w-full text-center text-black font-semibold text-lg">
+                Share your stealth address with the recipient
               </div>
             )}
           </div>
@@ -133,10 +182,10 @@ export function Fns() {
         </button>
         <button
           className="px-8 py-3 rounded-xl border-2 border-black font-bold text-lg bg-black text-white hover:bg-[#FCD119] hover:text-black transition disabled:opacity-50 shadow-md"
-          disabled={step === 1 ? !canNextStep1 : !canNextStep2}
+          disabled={step === 1 ? !canNextStep1 : step === 2 ? !canNextStep2 : false}
           onClick={() => {
             if (step === 1 && canNextStep1) setStep(2);
-            else if (step === 2 && canNextStep2) alert('Continue to next step!');
+            else if (step === 2 && canNextStep2) setStep(3);
           }}
         >
           Next
